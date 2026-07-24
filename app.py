@@ -109,7 +109,7 @@ if st.button("تحليل وإظهار الجرعة والسحب 🧮", use_conta
     st.write(f"📌 **معلومات الدواء:** {data['info']}")
     st.write(f"💧 **التركيز المستخدم:** {data['concentration']}")
 
-# 5. أزرار التواصل الاجتماعي وحقوق الملكية
+# 5. أزرار التواصل الاجتماعي وحقوق الملكية (النصوص في المنتصف)
 st.markdown("""
     <style>
     .social-container {
@@ -125,8 +125,8 @@ st.markdown("""
         display: inline-block;
         padding: 12px 24px;
         color: white !important;
-        text-decoration: none;
-        border-radius: 25px; /* حواف مستطيلة ناعمة جداً */
+        text-decoration: none !important;
+        border-radius: 25px;
         font-weight: bold;
         font-size: 15px;
         text-align: center;
@@ -137,6 +137,12 @@ st.markdown("""
     .social-btn:hover {
         opacity: 0.85;
         transform: translateY(-3px);
+        color: white !important;
+        text-decoration: none !important;
+    }
+    .social-btn:visited, .social-btn:active {
+        color: white !important;
+        text-decoration: none !important;
     }
     /* ألوان التطبيقات الأصلية */
     .btn-youtube { background-color: #FF0000; }
@@ -152,9 +158,12 @@ st.markdown("""
         font-size: 16px;
         border-radius: 10px;
         margin-top: 20px;
-        direction: ltr;
+        direction: rtl; /* ضبط الاتجاه ليكون النص في المنتصف باللغة العربية */
     }
-    .footer p { margin: 0; }
+    .footer p { 
+        margin: 0; 
+        text-align: center !important; /* توسيط النص أفقياً وعمودياً داخل التبويب */
+    }
     </style>
 
     <!-- الأزرار -->
