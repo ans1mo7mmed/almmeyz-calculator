@@ -1,5 +1,6 @@
 import streamlit as st
 import time
+import os
 
 # 1. إعداد الصفحة لتدعم اللغة العربية وشكل الواجهة
 st.set_page_config(page_title="النظام الذكي لحساب جرعة التخدير", page_icon="💉", layout="centered")
@@ -68,15 +69,13 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# 2. إظهار صورة اللوجو في المنتصف بأعلى الشاشة
+# 2. إظهار صورة اللوجو (مع تأمين تام لعدم تعليق الموقع إذا لم تكن الصورة مرفوعة)
 col_l1, col_l2, col_l3 = st.columns([2, 1, 2])
 with col_l2:
-    try:
+    if os.path.exists("logo.png"):
         st.image("logo.png", use_container_width=True)
-    except:
-        pass
 
-# 3. عداد الزيارات (بدون إعادة تحميل صفحة مزعجة لتفادي تعليق الموبايل)
+# 3. عداد الزيارات التلقائي الآمن (بدون إعادة تحميل صفحة تسبب تعليق الموبايل)
 if 'visit_time' not in st.session_state:
     st.session_state.visit_time = time.time()
     st.session_state.base_visitors = 76392
