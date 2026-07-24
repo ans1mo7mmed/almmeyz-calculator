@@ -160,7 +160,7 @@ anesthesia_drugs = {
     }
 }
 
-# 6. واجهة التقييم ما قبل التخدير الشاملة والمعمقة (ب نصوص مختصرة وواضحة للهواتف)
+# 6. واجهة التقييم ما قبل التخدير الشاملة والمعمقة
 st.subheader("📋 التقييم ما قبل التخدير")
 
 col_1, col_2 = st.columns(2)
@@ -242,9 +242,16 @@ drug = st.selectbox("اختر دواء التخدير:", list(anesthesia_drugs.k
 syringe_sizes = ["3 ml (cc)", "5 ml (cc)", "10 ml (cc)", "20 ml (cc)", "50 ml (cc)"]
 syringe_str = st.selectbox("حجم السرنجة:", syringe_sizes, index=2)
 
+# إضافة خيار التخفيف بالنورمل سلاين (Normal Saline Dilution) للتعليم والتدريب العملي
+st.markdown("#### 💧 خيارات تخفيف الدواء بالسرنجة:")
+use_dilution = st.checkbox("تفعيل ميزة تخفيف الجرعة بالنورمل سلاين (Normal Saline) داخل السرنجة")
+saline_volume_ml = 0.0
+if use_dilution:
+    saline_volume_ml = st.number_input("حجم النورمل سلاين المضاف لتخفيف الدواء (ml):", min_value=0.5, max_value=45.0, value=5.0, step=0.5)
+
 st.write("---")
 
-# 7. محرك اتخاذ القرار والتحليل الذكي
+# 7. محرك اتخاذ القرار والتحليل الذكي مع حساب التخفيف
 if st.button("تشغيل النظام الذكي وإصدار القرار السريري 🧮", use_container_width=True):
     data = anesthesia_drugs[drug]
     min_dose = weight * data["dose_range"][0]
@@ -299,11 +306,29 @@ if st.button("تشغيل النظام الذكي وإصدار القرار ال�
 
     st.write("---")
 
+    # النتائج الحسابية للجرعة والسحب
     st.success(f"💊 **الجرعة المقدرة للمريض:** {min_dose:.1f} إلى {max_dose:.1f} {data['unit'].split('/')[0]}")
-    st.success(f"💉 **حجم السحب بالسرنجة:** {min_volume_ml:.1f} ml إلى {max_volume_ml:.1f} ml")
+    st.success(f"💉 **حجم الدواء الصافي للسحب:** {min_volume_ml:.1f} ml إلى {max_volume_ml:.1f} ml")
 
-    if max_volume_ml > syringe_capacity:
-        st.error(f"⚠️ **خطأ في سعة السرنجة:** الحجم المحسوب ({max_volume_ml:.1f} ml) يفوق سعة السرنجة ({syringe_capacity} ml)! اختر سرنجة أكبر.")
+    # حساب التخفيف بالنورمل سلاين للطلاب وتقنيي التخدير
+    if use_dilution:
+        avg_volume_ml = (min_volume_ml + max_volume_ml) / 2.0
+        total_syringe_content = avg_volume_ml + saline_volume_ml
+        new_concentration = (avg_volume_ml * data["conc_val"]) / total_syringe_content if total_syringe_content > 0 else 0
+        
+        st.info(f"""
+        🧪 **إرشادات التخفيف العملي بالنورمل سلاين (Normal Saline Dilution):**
+        * **حجم الدواء المسحوب (متوسط الجرعة):** {avg_volume_ml:.1f} ml
+        * **حجم النورمل سلاين المضاف:** {saline_volume_ml} ml
+        * **الحجم الكلي داخل السرنجة:** {total_syringe_content:.1f} ml
+        * **التركيز الجديد بعد التخفيف:** تقريباً {new_concentration:.2f} mg/ml (أو mcg/ml حسب الدواء)
+        * 💡 *هذه الطريقة تفيد الطلاب والتقنيين لإعطاء الجرعات الصغيرة تدريجياً وبدقة عالية لمنع الهبوط المفاجئ في الضغط.*
+        """)
+
+    # التحقق من سعة السرنجة الكلية (بما فيها السلاين إن وجد)
+    total_check_volume = max_volume_ml + (saline_volume_ml if use_dilution else 0)
+    if total_check_volume > syringe_capacity:
+        st.error(f"⚠️ **خطأ في سعة السرنجة:** الحجم الكلي مع التخفيف ({total_check_volume:.1f} ml) يفوق سعة السرنجة المختارة ({syringe_capacity} ml)! الرجاء اختيار سرنجة ذات حجم أكبر.")
 
     st.write(f"📌 **الخصائص السريرية:** {data['info']}")
-    st.write(f"💧 **التركيز المعتمد:** {data['concentration']}")
+    st.write(f"💧 **التركيز الأساسي المعتمد:** {data['concentration']}")
