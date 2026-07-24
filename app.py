@@ -1,5 +1,4 @@
 import streamlit as st
-import time
 import os
 
 # 1. إعداد الصفحة لتدعم اللغة العربية وشكل الواجهة
@@ -81,20 +80,13 @@ with col_l2:
     except:
         pass
 
-# 3. عداد الزيارات الذهبي (يبدأ من 76,392 ويزداد تدريجياً بشكل تلقائي وبدون تعليق)
-if 'visit_time' not in st.session_state:
-    st.session_state.visit_time = time.time()
-    st.session_state.base_visitors = 76392
-
-elapsed_seconds = time.time() - st.session_state.visit_time
-# زيادة تقديرية بمعدل متوازن تزامناً مع مرور الوقت لتكون الحركة تلقائية وناعمة
-additional_visitors = int(elapsed_seconds / 60) * 15
-current_visitors = st.session_state.base_visitors + additional_visitors
+# 3. عداد الزيارات الثابت بدون تحديث تلقائي (يمنع مشكلة إعادة التحميل المزعجة نهائياً)
+fixed_visitors = 76392
 
 st.markdown(f"""
 <div style="text-align: center;">
     <div class="visitor-badge">
-        👁️ عدد زيارات الموقع: <b>{current_visitors:,}</b> زائر
+        👁️ عدد زيارات الموقع: <b>{fixed_visitors:,}</b> زائر
     </div>
 </div>
 """, unsafe_allow_html=True)
