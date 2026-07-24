@@ -1,7 +1,7 @@
 import streamlit as st
 
 # 1. إعداد الصفحة لتدعم اللغة العربية وشكل الواجهة
-st.set_page_config(page_title="نظام التخدير - منصة المميز", page_icon="💉", layout="centered")
+st.set_page_config(page_title="النظام الذكي لحساب جرعة التخدير", page_icon="💉", layout="centered")
 
 # إضافة CSS لضبط اتجاه النص من اليمين لليسار (RTL) 
 st.markdown("""
@@ -55,7 +55,7 @@ disease_warnings = {
 }
 
 # 3. واجهة المستخدم
-st.title("نظام الدعم السريري وحساب السرنجات 💉")
+st.title("النظام الذكي لحساب جرعة التخدير 💉")
 st.markdown("### تطبيق منصة المميز الذكية")
 
 # إدخال البيانات في عمودين لترتيب الشاشة
@@ -109,7 +109,7 @@ if st.button("تحليل وإظهار الجرعة والسحب 🧮", use_conta
     st.write(f"📌 **معلومات الدواء:** {data['info']}")
     st.write(f"💧 **التركيز المستخدم:** {data['concentration']}")
 
-# 5. أزرار التواصل الاجتماعي وحقوق الملكية (النصوص في المنتصف)
+# 5. أزرار التواصل الاجتماعي وحقوق الملكية
 st.markdown("""
     <style>
     .social-container {
@@ -158,11 +158,11 @@ st.markdown("""
         font-size: 16px;
         border-radius: 10px;
         margin-top: 20px;
-        direction: rtl; /* ضبط الاتجاه ليكون النص في المنتصف باللغة العربية */
+        direction: rtl;
     }
     .footer p { 
         margin: 0; 
-        text-align: center !important; /* توسيط النص أفقياً وعمودياً داخل التبويب */
+        text-align: center !important;
     }
     </style>
 
