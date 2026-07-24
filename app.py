@@ -1,10 +1,9 @@
 import streamlit as st
-import os
 
 # 1. إعداد الصفحة لتدعم اللغة العربية وشكل الواجهة
 st.set_page_config(page_title="النظام الذكي لحساب جرعة التخدير", page_icon="💉", layout="centered")
 
-# إضافة CSS لضبط اتجاه النص والتصميم والتوسيط وتنسيق أزرار الروابط وعدّاد الزيارات الذهبي
+# إضافة CSS لضبط اتجاه النص والتصميم والتوسيط وتنسيق أزرار الروابط وعدّاد الزيارات
 st.markdown("""
     <style>
     * {
@@ -54,19 +53,20 @@ st.markdown("""
     .btn-instagram { background-color: #E1306C; color: white !important; }
     .btn-instagram:hover { background-color: #c12258; }
 
-    /* تنسيق عداد الزيارات الذهبي البارز تحت اللوجو مباشرة */
-    .visitor-badge {
-        background: linear-gradient(135deg, #fff8e1, #ffecb3);
-        color: #b78103;
-        padding: 5px 14px;
-        border-radius: 20px;
-        border: 1px solid #ffe082;
-        font-size: 12px;
-        font-weight: bold;
-        text-align: center;
+    /* تنسيق عداد الزيارات تماماً مثل الصورة المطلوبة */
+    .visitor-counter {
         display: inline-block;
-        box-shadow: 0 2px 5px rgba(255, 193, 7, 0.2);
-        margin: 8px auto;
+        background-color: #fff8e1;
+        color: #b78103;
+        padding: 8px 20px;
+        border-radius: 50px;
+        border: 1px solid #ffe082;
+        font-weight: bold;
+        font-size: 14px;
+        text-align: center;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        margin-top: 10px;
+        margin-bottom: 15px;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -75,29 +75,26 @@ st.markdown("""
 col_l1, col_l2, col_l3 = st.columns([2, 1, 2])
 with col_l2:
     try:
-        if os.path.exists("logo.png"):
-            st.image("logo.png", use_container_width=True)
+        st.image("logo.png", use_container_width=True)
     except:
         pass
 
-# 3. عداد الزيارات الثابت بدون تحديث تلقائي (يمنع مشكلة إعادة التحميل المزعجة نهائياً)
-fixed_visitors = 76392
+# 3. العناوين الرئيسية
+st.title("النظام الذكي لحساب جرعة التخدير 💉")
+st.markdown("### تطبيق منصة المميز الذكية")
 
-st.markdown(f"""
+# 4. إضافة عداد الزيارات (مثل الصورة المطابقة تماماً)
+st.markdown("""
 <div style="text-align: center;">
-    <div class="visitor-badge">
-        👁️ عدد زيارات الموقع: <b>{fixed_visitors:,}</b> زائر
+    <div class="visitor-counter">
+        👁️ عدد زيارات الموقع: 76,392 زائر
     </div>
 </div>
 """, unsafe_allow_html=True)
 
-# 4. العناوين الرئيسية
-st.title("النظام الذكي لحساب جرعة التخدير 💉")
-st.markdown("### تطبيق منصة المميز الذكية")
-
 # 5. إضافة تبويبات شبيهة بأزرار مسطيلة ناعمة الحواف لروابط التواصل
 st.markdown("""
-<div style="text-align: center; margin-bottom: 20px;">
+<div style="text-align: center; margin-bottom: 20px; margin-top: 10px;">
     <a href="https://www.youtube.com/@bggt1/videos" target="_blank" class="social-btn btn-youtube">📺 قناة اليوتيوب</a>
     <a href="https://t.me/makderiq" target="_blank" class="social-btn btn-telegram">✈️ قناة التليكرام</a>
     <a href="https://t.me/mmeyaz" target="_blank" class="social-btn btn-mmeyaz">🎓 قناة منصة المميز</a>
