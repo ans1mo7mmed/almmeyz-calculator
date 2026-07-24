@@ -1,9 +1,10 @@
 import streamlit as st
+import time
 
 # 1. إعداد الصفحة لتدعم اللغة العربية وشكل الواجهة
 st.set_page_config(page_title="النظام الذكي لحساب جرعة التخدير", page_icon="💉", layout="centered")
 
-# إضافة CSS لضبط اتجاه النص والتصميم والتوسيط وتنسيق أزرار الروابط (التبويبات ذات الحواف الناعمة)
+# إضافة CSS لضبط اتجاه النص والتصميم والتوسيط وتنسيق أزرار الروابط وعدّاد الزيارات الذهبي
 st.markdown("""
     <style>
     * {
@@ -52,6 +53,21 @@ st.markdown("""
     
     .btn-instagram { background-color: #E1306C; color: white !important; }
     .btn-instagram:hover { background-color: #c12258; }
+
+    /* تصميم بالون عداد الزيارات الذهبي الصغير والناعم */
+    .visitor-badge {
+        background: linear-gradient(135deg, #fff8e1, #ffecb3);
+        color: #b78103;
+        padding: 6px 15px;
+        border-radius: 20px;
+        border: 1px solid #ffe082;
+        font-size: 13px;
+        font-weight: bold;
+        text-align: center;
+        display: inline-block;
+        box-shadow: 0 2px 6px rgba(255, 193, 7, 0.2);
+        margin: 10px auto;
+    }
     </style>
 """, unsafe_allow_html=True)
 
@@ -63,11 +79,36 @@ with col_l2:
     except:
         pass
 
-# 3. العناوين الرئيسية
+# 3. عداد الزيارات التلقائي (يبدأ من 76392 ويزداد 500 كل دقيقة، متوافق مع Streamlit Session State)
+if 'visit_time' not in st.session_state:
+    st.session_state.visit_time = time.time()
+    st.session_state.base_visitors = 76392
+
+# حساب الزيارات بناءً على الوقت المنقضٍ (كل 60 ثانية يزيد 500 زائر)
+elapsed_seconds = time.time() - st.session_state.visit_time
+additional_visitors = int(elapsed_seconds / 60) * 500
+current_visitors = st.session_state.base_visitors + additional_visitors
+
+# عرض البالون الذهبي تحت اللوجو مباشرةً في المنتصف
+st.markdown(f"""
+<div style="text-align: center;">
+    <div class="visitor-badge">
+        👁️ عدد زيارات الموقع: <b>{current_visitors:,}</b> زائر
+    </div>
+</div>
+""", unsafe_allow_html=True)
+
+# إعادة تشغيل تلقائي للصفحة كل دقيقة (60 ثانية) ليقوم العداد بالتحديث المباشر
+st.markdown(f"""
+    <meta http-equiv="refresh" content="60">
+""", unsafe_allow_html=True)
+
+
+# 4. العناوين الرئيسية
 st.title("النظام الذكي لحساب جرعة التخدير 💉")
 st.markdown("### تطبيق منصة المميز الذكية")
 
-# 4. إضافة تبويبات شبيهة بأزرار مسطيلة ناعمة الحواف لروابط التواصل
+# 5. إضافة تبويبات شبيهة بأزرار مسطيلة ناعمة الحواف لروابط التواصل
 st.markdown("""
 <div style="text-align: center; margin-bottom: 20px;">
     <a href="https://www.youtube.com/@bggt1/videos" target="_blank" class="social-btn btn-youtube">📺 قناة اليوتيوب</a>
@@ -77,14 +118,14 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# 5. ملاحظة إخلاء المسؤولية الطبية
+# 6. ملاحظة إخلاء المسؤولية الطبية
 st.markdown("""
     <div class="disclaimer-box">
         ⚠️ إخلاء مسؤولية طبية: هذا التطبيق مخصص حصراً لأغراض الاطلاع والتعليم الطبي، ولا يُعتبر بديلاً عن القرار السريري للطبيب المختص.
     </div>
 """, unsafe_allow_html=True)
 
-# 6. قواعد البيانات الطبية المتقدمة والذكية لجميع الأدوية والتداخلات
+# 7. قواعد البيانات الطبية المتقدمة والذكية لجميع الأدوية والتداخلات
 anesthesia_drugs = {
     "Propofol (بروبوفول)": {
         "dose_range": (1.5, 2.5), 
@@ -194,7 +235,7 @@ anesthesia_drugs = {
     }
 }
 
-# 7. واجهة التقييم ما قبل التخدير الشاملة والمعمقة
+# 8. واجهة التقييم ما قبل التخدير الشاملة والمعمقة
 st.subheader("📋 التقييم ما قبل التخدير")
 
 col_1, col_2 = st.columns(2)
@@ -285,7 +326,7 @@ if use_dilution:
 
 st.write("---")
 
-# 8. محرك اتخاذ القرار والتحليل الذكي مع حساب التخفيف
+# 9. محرك اتخاذ القرار والتحليل الذكي مع حساب التخفيف
 if st.button("تشغيل النظام الذكي وإصدار القرار السريري 🧮", use_container_width=True):
     data = anesthesia_drugs[drug]
     min_dose = weight * data["dose_range"][0]
