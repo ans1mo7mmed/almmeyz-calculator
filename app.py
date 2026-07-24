@@ -3,28 +3,13 @@ import streamlit as st
 # 1. إعداد الصفحة لتدعم اللغة العربية وشكل الواجهة
 st.set_page_config(page_title="نظام التخدير - منصة المميز", page_icon="💉", layout="centered")
 
-# إضافة CSS لضبط اتجاه النص من اليمين لليسار (RTL) وتصميم الحقوق
+# إضافة CSS لضبط اتجاه النص من اليمين لليسار (RTL) 
 st.markdown("""
     <style>
     * {
         direction: rtl;
         text-align: right;
         font-family: 'Arial', sans-serif;
-    }
-    .footer {
-        background-color: #1a237e;
-        color: #FFD700;
-        text-align: center;
-        padding: 15px;
-        font-weight: bold;
-        font-size: 16px;
-        border-radius: 10px;
-        margin-top: 50px;
-        direction: ltr; /* للحفاظ على تنسيق الأسطر بالمنتصف */
-    }
-    .footer p {
-        text-align: center;
-        margin: 0;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -124,8 +109,63 @@ if st.button("تحليل وإظهار الجرعة والسحب 🧮", use_conta
     st.write(f"📌 **معلومات الدواء:** {data['info']}")
     st.write(f"💧 **التركيز المستخدم:** {data['concentration']}")
 
-# 5. حقوق الملكية كما طلبت
+# 5. أزرار التواصل الاجتماعي وحقوق الملكية
 st.markdown("""
+    <style>
+    .social-container {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        margin-top: 40px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+        direction: rtl;
+    }
+    .social-btn {
+        display: inline-block;
+        padding: 12px 24px;
+        color: white !important;
+        text-decoration: none;
+        border-radius: 25px; /* حواف مستطيلة ناعمة جداً */
+        font-weight: bold;
+        font-size: 15px;
+        text-align: center;
+        transition: 0.3s;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        border: none;
+    }
+    .social-btn:hover {
+        opacity: 0.85;
+        transform: translateY(-3px);
+    }
+    /* ألوان التطبيقات الأصلية */
+    .btn-youtube { background-color: #FF0000; }
+    .btn-insta { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
+    .btn-telegram { background-color: #24A1DE; }
+    
+    .footer {
+        background-color: #1a237e;
+        color: #FFD700;
+        text-align: center;
+        padding: 15px;
+        font-weight: bold;
+        font-size: 16px;
+        border-radius: 10px;
+        margin-top: 20px;
+        direction: ltr;
+    }
+    .footer p { margin: 0; }
+    </style>
+
+    <!-- الأزرار -->
+    <div class="social-container">
+        <a href="https://www.youtube.com/@bggt1/videos" target="_blank" class="social-btn btn-youtube">▶️ قناتي على اليوتيوب</a>
+        <a href="https://www.instagram.com/ans.mo7mmed" target="_blank" class="social-btn btn-insta">📸 حسابي على الانستغرام</a>
+        <a href="https://t.me/makderiq" target="_blank" class="social-btn btn-telegram">✈️ قناتي على التليكرام</a>
+        <a href="https://t.me/mmeyaz" target="_blank" class="social-btn btn-telegram">✈️ قناة منصة المميز</a>
+    </div>
+
+    <!-- شريط الحقوق -->
     <div class="footer">
         <p>تطبيق تابع لمنصة المميز</p>
         <p>تم برمجته من قبل محمد أسعد السعد</p>
