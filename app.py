@@ -12,7 +12,6 @@ st.markdown("""
         text-align: right;
         font-family: 'Arial', sans-serif;
     }
-    /* ضمان ظهور النصوص بالكامل وعدم قصها في القوائم المنسدلة على الموبايل */
     div[data-baseweb="select"] span {
         white-space: normal !important;
         overflow: visible !important;
@@ -29,7 +28,6 @@ st.markdown("""
         text-align: center;
         font-size: 13px;
     }
-    /* تنسيق أزرار التبويبات بروح وتصميم التطبيق */
     .social-btn {
         display: inline-block;
         padding: 8px 16px;
@@ -54,7 +52,6 @@ st.markdown("""
     .btn-instagram { background-color: #E1306C; color: white !important; }
     .btn-instagram:hover { background-color: #c12258; }
 
-    /* تصميم بالون عداد الزيارات الذهبي الصغير والناعم */
     .visitor-badge {
         background: linear-gradient(135deg, #fff8e1, #ffecb3);
         color: #b78103;
@@ -79,17 +76,15 @@ with col_l2:
     except:
         pass
 
-# 3. عداد الزيارات التلقائي (يبدأ من 76392 ويزداد 500 كل دقيقة، متوافق مع Streamlit Session State)
+# 3. عداد الزيارات (بدون إعادة تحميل صفحة مزعجة لتفادي تعليق الموبايل)
 if 'visit_time' not in st.session_state:
     st.session_state.visit_time = time.time()
     st.session_state.base_visitors = 76392
 
-# حساب الزيارات بناءً على الوقت المنقضٍ (كل 60 ثانية يزيد 500 زائر)
 elapsed_seconds = time.time() - st.session_state.visit_time
 additional_visitors = int(elapsed_seconds / 60) * 500
 current_visitors = st.session_state.base_visitors + additional_visitors
 
-# عرض البالون الذهبي تحت اللوجو مباشرةً في المنتصف
 st.markdown(f"""
 <div style="text-align: center;">
     <div class="visitor-badge">
@@ -98,17 +93,11 @@ st.markdown(f"""
 </div>
 """, unsafe_allow_html=True)
 
-# إعادة تشغيل تلقائي للصفحة كل دقيقة (60 ثانية) ليقوم العداد بالتحديث المباشر
-st.markdown(f"""
-    <meta http-equiv="refresh" content="60">
-""", unsafe_allow_html=True)
-
-
 # 4. العناوين الرئيسية
 st.title("النظام الذكي لحساب جرعة التخدير 💉")
 st.markdown("### تطبيق منصة المميز الذكية")
 
-# 5. إضافة تبويبات شبيهة بأزرار مسطيلة ناعمة الحواف لروابط التواصل
+# 5. أزرار التواصل
 st.markdown("""
 <div style="text-align: center; margin-bottom: 20px;">
     <a href="https://www.youtube.com/@bggt1/videos" target="_blank" class="social-btn btn-youtube">📺 قناة اليوتيوب</a>
@@ -125,7 +114,7 @@ st.markdown("""
     </div>
 """, unsafe_allow_html=True)
 
-# 7. قواعد البيانات الطبية المتقدمة والذكية لجميع الأدوية والتداخلات
+# 7. قواعد البيانات الطبية للأدوية
 anesthesia_drugs = {
     "Propofol (بروبوفول)": {
         "dose_range": (1.5, 2.5), 
@@ -235,7 +224,7 @@ anesthesia_drugs = {
     }
 }
 
-# 8. واجهة التقييم ما قبل التخدير الشاملة والمعمقة
+# 8. واجهة التقييم ما قبل التخدير
 st.subheader("📋 التقييم ما قبل التخدير")
 
 col_1, col_2 = st.columns(2)
@@ -317,7 +306,6 @@ drug = st.selectbox("اختر دواء التخدير:", list(anesthesia_drugs.k
 syringe_sizes = ["3 ml (cc)", "5 ml (cc)", "10 ml (cc)", "20 ml (cc)", "50 ml (cc)"]
 syringe_str = st.selectbox("حجم السرنجة:", syringe_sizes, index=2)
 
-# إضافة خيار التخفيف بالنورمل سلاين (Normal Saline Dilution) للتعليم والتدريب العملي
 st.markdown("#### 💧 خيارات تخفيف الدواء بالسرنجة:")
 use_dilution = st.checkbox("تفعيل ميزة تخفيف الجرعة بالنورمل سلاين (Normal Saline) داخل السرنجة")
 saline_volume_ml = 0.0
@@ -326,7 +314,7 @@ if use_dilution:
 
 st.write("---")
 
-# 9. محرك اتخاذ القرار والتحليل الذكي مع حساب التخفيف
+# 9. زر تنفيذ الحسابات
 if st.button("تشغيل النظام الذكي وإصدار القرار السريري 🧮", use_container_width=True):
     data = anesthesia_drugs[drug]
     min_dose = weight * data["dose_range"][0]
@@ -381,11 +369,9 @@ if st.button("تشغيل النظام الذكي وإصدار القرار ال�
 
     st.write("---")
 
-    # النتائج الحسابية للجرعة والسحب
     st.success(f"💊 **الجرعة المقدرة للمريض:** {min_dose:.1f} إلى {max_dose:.1f} {data['unit'].split('/')[0]}")
     st.success(f"💉 **حجم الدواء الصافي للسحب:** {min_volume_ml:.1f} ml إلى {max_volume_ml:.1f} ml")
 
-    # حساب التخفيف بالنورمل سلاين للطلاب وتقنيي التخدير
     if use_dilution:
         avg_volume_ml = (min_volume_ml + max_volume_ml) / 2.0
         total_syringe_content = avg_volume_ml + saline_volume_ml
@@ -400,7 +386,6 @@ if st.button("تشغيل النظام الذكي وإصدار القرار ال�
         * 💡 *هذه الطريقة تفيد الطلاب والتقنيين لإعطاء الجرعات الصغيرة تدريجياً وبدقة عالية لمنع الهبوط المفاجئ في الضغط.*
         """)
 
-    # التحقق من سعة السرنجة الكلية (بما فيها السلاين إن وجد)
     total_check_volume = max_volume_ml + (saline_volume_ml if use_dilution else 0)
     if total_check_volume > syringe_capacity:
         st.error(f"⚠️ **خطأ في سعة السرنجة:** الحجم الكلي مع التخفيف ({total_check_volume:.1f} ml) يفوق سعة السرنجة المختارة ({syringe_capacity} ml)! الرجاء اختيار سرنجة ذات حجم أكبر.")
