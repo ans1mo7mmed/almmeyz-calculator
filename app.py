@@ -3,7 +3,7 @@ import streamlit as st
 # 1. إعداد الصفحة لتدعم اللغة العربية وشكل الواجهة
 st.set_page_config(page_title="النظام الذكي لحساب جرعة التخدير", page_icon="💉", layout="centered")
 
-# إضافة CSS لضبط اتجاه النص من اليمين لليسار (RTL) 
+# إضافة CSS لضبط اتجاه النص والتصميم
 st.markdown("""
     <style>
     * {
@@ -14,7 +14,19 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# 2. قواعد البيانات
+# 2. إظهار صورة اللوجو في المنتصف بأعلى الشاشة
+col1, col2, col3 = st.columns([2, 1, 2])
+with col2:
+    try:
+        st.image("logo.png", use_container_width=True)
+    except:
+        pass  # في حال عدم رفع الصورة بعد، لن يظهر خطأ للمستخدم
+
+# 3. العناوين الرئيسية
+st.title("النظام الذكي لحساب جرعة التخدير 💉")
+st.markdown("### تطبيق منصة المميز الذكية")
+
+# 4. قواعد البيانات
 anesthesia_drugs = {
     "Propofol (بروبوفول)": {"dose_range": (1.5, 2.5), "unit": "mg/kg", "concentration": "10 mg/ml", "conc_val": 10.0, "info": "يستخدم للتحريض (Induction) والتخدير المستمر."},
     "Thiopental (ثيوبنتال)": {"dose_range": (3.0, 5.0), "unit": "mg/kg", "concentration": "25 mg/ml", "conc_val": 25.0, "info": "تحريض سريع للتخدير. يمتلك خصائص مضادة للتشنج."},
@@ -54,15 +66,11 @@ disease_warnings = {
     }
 }
 
-# 3. واجهة المستخدم
-st.title("النظام الذكي لحساب جرعة التخدير 💉")
-st.markdown("### تطبيق منصة المميز الذكية")
-
-# إدخال البيانات في عمودين لترتيب الشاشة
-col1, col2 = st.columns(2)
-with col1:
+# 5. إدخال البيانات في عمودين
+col_a, col_b = st.columns(2)
+with col_a:
     weight = st.number_input("الوزن (كغم):", min_value=1.0, max_value=300.0, value=70.0, step=1.0)
-with col2:
+with col_b:
     age = st.number_input("العمر (سنة):", min_value=1, max_value=120, value=30, step=1)
 
 diseases_list = ["لا يوجد (سليم)", "ارتفاع ضغط الدم (Hypertension)", "أمراض القلب (Heart Disease)", "ربو / أمراض تنفسية (Asthma)", "فشل كلوي (Renal Failure)", "قصور كبدي (Hepatic Impairment)"]
@@ -75,7 +83,7 @@ syringe_str = st.selectbox("حجم السرنجة:", syringe_sizes, index=2)
 
 st.write("---")
 
-# 4. الحساب والنتائج
+# 6. الحساب والنتائج
 if st.button("تحليل وإظهار الجرعة والسحب 🧮", use_container_width=True):
     data = anesthesia_drugs[drug]
     min_dose = weight * data["dose_range"][0]
@@ -109,7 +117,7 @@ if st.button("تحليل وإظهار الجرعة والسحب 🧮", use_conta
     st.write(f"📌 **معلومات الدواء:** {data['info']}")
     st.write(f"💧 **التركيز المستخدم:** {data['concentration']}")
 
-# 5. أزرار التواصل الاجتماعي وحقوق الملكية
+# 7. أزرار التواصل الاجتماعي وحقوق الملكية
 st.markdown("""
     <style>
     .social-container {
@@ -144,7 +152,6 @@ st.markdown("""
         color: white !important;
         text-decoration: none !important;
     }
-    /* ألوان التطبيقات الأصلية */
     .btn-youtube { background-color: #FF0000; }
     .btn-insta { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
     .btn-telegram { background-color: #24A1DE; }
