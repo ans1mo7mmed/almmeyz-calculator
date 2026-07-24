@@ -3,7 +3,7 @@ import streamlit as st
 # 1. إعداد الصفحة لتدعم اللغة العربية وشكل الواجهة
 st.set_page_config(page_title="النظام الذكي لحساب جرعة التخدير", page_icon="💉", layout="centered")
 
-# إضافة CSS لضبط اتجاه النص والتصميم والتوسيط وحل مشكلة النصوص الطويلة على الهواتف
+# إضافة CSS لضبط اتجاه النص والتصميم والتوسيط وتنسيق أزرار الروابط (التبويبات ذات الحواف الناعمة)
 st.markdown("""
     <style>
     * {
@@ -28,6 +28,30 @@ st.markdown("""
         text-align: center;
         font-size: 13px;
     }
+    /* تنسيق أزرار التبويبات بروح وتصميم التطبيق */
+    .social-btn {
+        display: inline-block;
+        padding: 8px 16px;
+        margin: 5px;
+        border-radius: 12px;
+        font-size: 14px;
+        font-weight: bold;
+        text-align: center;
+        text-decoration: none;
+        transition: 0.3s;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .btn-youtube { background-color: #FF0000; color: white !important; }
+    .btn-youtube:hover { background-color: #cc0000; }
+    
+    .btn-telegram { background-color: #0088cc; color: white !important; }
+    .btn-telegram:hover { background-color: #006699; }
+    
+    .btn-mmeyaz { background-color: #2e7d32; color: white !important; }
+    .btn-mmeyaz:hover { background-color: #1b5e20; }
+    
+    .btn-instagram { background-color: #E1306C; color: white !important; }
+    .btn-instagram:hover { background-color: #c12258; }
     </style>
 """, unsafe_allow_html=True)
 
@@ -43,14 +67,24 @@ with col_l2:
 st.title("النظام الذكي لحساب جرعة التخدير 💉")
 st.markdown("### تطبيق منصة المميز الذكية")
 
-# 4. ملاحظة إخلاء المسؤولية الطبية
+# 4. إضافة تبويبات شبيهة بأزرار مسطيلة ناعمة الحواف لروابط التواصل
+st.markdown("""
+<div style="text-align: center; margin-bottom: 20px;">
+    <a href="https://www.youtube.com/@bggt1/videos" target="_blank" class="social-btn btn-youtube">📺 قناة اليوتيوب</a>
+    <a href="https://t.me/makderiq" target="_blank" class="social-btn btn-telegram">✈️ قناة التليكرام</a>
+    <a href="https://t.me/mmeyaz" target="_blank" class="social-btn btn-mmeyaz">🎓 قناة منصة المميز</a>
+    <a href="https://www.instagram.com/ans.mo7mmed" target="_blank" class="social-btn btn-instagram">📸 انستغرام</a>
+</div>
+""", unsafe_allow_html=True)
+
+# 5. ملاحظة إخلاء المسؤولية الطبية
 st.markdown("""
     <div class="disclaimer-box">
         ⚠️ إخلاء مسؤولية طبية: هذا التطبيق مخصص حصراً لأغراض الاطلاع والتعليم الطبي، ولا يُعتبر بديلاً عن القرار السريري للطبيب المختص.
     </div>
 """, unsafe_allow_html=True)
 
-# 5. قواعد البيانات الطبية المتقدمة والذكية لجميع الأدوية والتداخلات
+# 6. قواعد البيانات الطبية المتقدمة والذكية لجميع الأدوية والتداخلات
 anesthesia_drugs = {
     "Propofol (بروبوفول)": {
         "dose_range": (1.5, 2.5), 
@@ -160,7 +194,7 @@ anesthesia_drugs = {
     }
 }
 
-# 6. واجهة التقييم ما قبل التخدير الشاملة والمعمقة
+# 7. واجهة التقييم ما قبل التخدير الشاملة والمعمقة
 st.subheader("📋 التقييم ما قبل التخدير")
 
 col_1, col_2 = st.columns(2)
@@ -251,7 +285,7 @@ if use_dilution:
 
 st.write("---")
 
-# 7. محرك اتخاذ القرار والتحليل الذكي مع حساب التخفيف
+# 8. محرك اتخاذ القرار والتحليل الذكي مع حساب التخفيف
 if st.button("تشغيل النظام الذكي وإصدار القرار السريري 🧮", use_container_width=True):
     data = anesthesia_drugs[drug]
     min_dose = weight * data["dose_range"][0]
